@@ -1,0 +1,32 @@
+﻿<Window x:Class="HomeBudgetWPF.LaunchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HomeBudgetWPF"
+        mc:Ignorable="d"
+        Title="LaunchWindow" Height="450" Width="800" FontFamily="Cambria">
+    <Grid ShowGridLines="False" Background="MistyRose">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Viewbox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" StretchDirection="Both" Stretch="Uniform">
+        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontStyle="Italic">Home Budgeter</TextBlock>
+        </Viewbox>
+
+        <Button x:Name="newFile"   Click="newFile_Click"  Grid.Row="2" Grid.Column="1" Content="New File" Background="LightBlue" FontSize="20" BorderBrush="Black" BorderThickness="3"/>
+
+        <Button x:Name="openFile" Click="openFile_Click" Grid.Row="2" Grid.Column="3" Content="Open File" Background="LightBlue" FontSize="20" BorderBrush="Black" BorderThickness="3"/>
+
+    </Grid>
+</Window>

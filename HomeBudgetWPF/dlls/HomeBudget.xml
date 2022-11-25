@@ -1,0 +1,631 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HomeBudget</name>
+    </assembly>
+    <members>
+        <member name="T:Budget.BudgetItem">
+            <summary>
+            BudgetItem presents properties to get and set attributes.
+            </summary>
+        </member>
+        <member name="P:Budget.BudgetItem.CategoryID">
+            <summary>
+            Gets or sets the categoryID of the budget item.
+            </summary>
+            <value>Id of the category of the item.</value>
+        </member>
+        <member name="P:Budget.BudgetItem.ExpenseID">
+            <summary>
+            Gets or sets the expenseID of the budget item.
+            </summary>
+            <value>Id of the expense of the item.</value>
+        </member>
+        <member name="P:Budget.BudgetItem.Date">
+            <summary>
+            Gets or sets the date of the budget item.
+            </summary>
+            <value>Represents the day of creation of the item.</value>
+        </member>
+        <member name="P:Budget.BudgetItem.Category">
+            <summary>
+            Gets or sets the category of the budget item.
+            </summary>
+            <value>Category of the item.</value>
+        </member>
+        <member name="P:Budget.BudgetItem.ShortDescription">
+            <summary>
+            Gets or sets the short description of the budget item.
+            </summary>
+            <value>Short description of what the item is.</value>
+        </member>
+        <member name="P:Budget.BudgetItem.Amount">
+            <summary>
+            Gets or sets the amount of the budget item.
+            </summary>
+            <value>Cost of the item.</value>
+        </member>
+        <member name="P:Budget.BudgetItem.Balance">
+            <summary>
+            Gets or sets the balance of the budget item.
+            </summary>
+            <value>Amount of money left after the amount was removed or added.</value>
+        </member>
+        <member name="T:Budget.BudgetItemsByMonth">
+            <summary>
+            BudgetItemsByMonth represents a group of Budget Items made in a month. Presents properties to get and set attributes of the group.
+            </summary>
+        </member>
+        <member name="P:Budget.BudgetItemsByMonth.Month">
+            <summary>
+            Gets or sets the month of the group.
+            </summary>
+            <value>Year/month for the group.</value>
+        </member>
+        <member name="P:Budget.BudgetItemsByMonth.Details">
+            <summary>
+            Gets or sets the list of budget items for the group.
+            </summary>
+            <value>List of BudgetItems for the month.</value>
+        </member>
+        <member name="P:Budget.BudgetItemsByMonth.Total">
+            <summary>
+            Gets or sets the total for the group.
+            </summary>
+            <value>Total money spent or gained during the month.</value>
+        </member>
+        <member name="T:Budget.BudgetItemsByCategory">
+            <summary>
+            BudgetItemsByCategory represents a group of Budget Items for a category. Presents properties to get and set attributes of the group.
+            </summary>
+        </member>
+        <member name="P:Budget.BudgetItemsByCategory.Category">
+            <summary>
+            Gets or sets the category of the group.
+            </summary>
+            <value>Name of the category for the group.</value>
+        </member>
+        <member name="P:Budget.BudgetItemsByCategory.Details">
+            <summary>
+            Gets or sets the list of budget items for the group.
+            </summary>
+            <value>List of BudgetItems for the category.</value>
+        </member>
+        <member name="P:Budget.BudgetItemsByCategory.Total">
+            <summary>
+            Gets or sets the total for the group.
+            </summary>
+            <value>Total money spent or gained for the category.</value>
+        </member>
+        <member name="T:Budget.Categories">
+            <summary>
+            Categories class is used to read and write from a <see cref="T:Budget.Category"/> table in a database.
+            </summary>
+        </member>
+        <member name="M:Budget.Categories.#ctor(System.Data.SQLite.SQLiteConnection,System.Boolean)">
+            <summary>
+            Initializes an instance of Categories class. abc  
+            </summary>
+            <param name="connection">Connection to a database.</param>
+            <param name="newDb">Boolean that determines if the database is new.</param>
+            <remarks>If the database is new, the categories and categoryTypes table will be filled with default values.</remarks>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.GetCategoryFromId(System.Int32)">
+            <summary>
+            Looks for the <see cref="T:Budget.Category"/>  with the id <paramref name="i"/> in the categories table.
+            </summary>
+            <param name="i">Id of the object to look for.</param>
+            <returns>The object with an Id corresponding to the passed Id.</returns>
+            <exception cref="T:System.Exception">
+            Thrown when a Category with the passed Id isn't found.
+            </exception>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            Category search = categories.GetCategoryFromId(2);
+            Console.WriteLine(search);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.SetCategoryTypesToDefaults">
+            <summary>
+            Adds default values to the categoryTypes table.
+            </summary>
+            <remarks>
+            Values that were previously in the categoryTypes table are deleted.
+            </remarks>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            categories.SetCategoryTypesToDefaults();
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.UpdateProperties(System.Int32,System.String,Budget.Category.CategoryType)">
+            <summary>
+            Updates the category from the categories table with the passed id with the passed values.
+            </summary>
+            <remarks>
+            If a category with the passed Id isn't found, an error will logged to the console.
+            </remarks>
+            <param name="id">Id of the category to be updated.</param>
+            <param name="newDescr">New Description of the category.</param>
+            <param name="categoryType">New CategoryType of the category.</param>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            categories.Add("Food", Category.CategoryType.Expense);
+            categories.UpdateProperties(1,"Drink", Category.CategoryType.Expense);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.SetCategoriesToDefaults">
+            <summary>
+            Adds default values to the categories table.
+            </summary>
+            <remarks>
+            Values that were previously in the categories table are deleted.
+            </remarks>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            categories.Add("Food", Category.CategoryType.Expense);
+            categories.SetCategoriesToDefaults();
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.Add(System.String,Budget.Category.CategoryType)">
+            <summary>
+            Adds a category to the categories table.
+            </summary>
+            <remarks>Id of added categories are auto incremented</remarks>
+            <param name="desc">Description of the new category.</param>
+            <param name="type">Type of the new category.</param>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            categories.Add("Food", Category.CategoryType.Expense);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.Delete(System.Int32)">
+            <summary>
+            Removes the category with the passed id from the categories table.
+            </summary>
+            <remarks>
+            If a category with the passed Id isn't found, an error will logged to the console.
+            </remarks>
+            <param name="Id">Id of the object to delete.</param>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            categories.Add("Food", Category.CategoryType.Expense);
+            categories.Delete(1);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Categories.List">
+            <summary>
+            Returns a list of all categories from the categories table.
+            </summary>
+            <returns>List of Categories</returns>
+            <example>
+            <code>
+            Categories categories = new Categories(Database.dbConnection,false);
+            foreach(Category category in categories.List())
+                Console.WriteLine(category);
+            </code>
+            </example>
+        </member>
+        <member name="T:Budget.Category">
+            <summary>
+            Category class is used to create unique categories to differenciate one from another. 
+            </summary>
+        </member>
+        <member name="P:Budget.Category.Id">
+            <summary>
+            Gets or sets the Id of the category.
+            </summary>
+            <value>Unique Id of a category.</value>
+        </member>
+        <member name="P:Budget.Category.Description">
+            <summary>
+            Gets or sets the description of the category.
+            </summary>
+            <value>Short description about the current category.</value>
+        </member>
+        <member name="P:Budget.Category.Type">
+            <summary>
+            Gets or sets the type of the Category.
+            </summary>
+            <value>The type of the category.</value>
+        </member>
+        <member name="T:Budget.Category.CategoryType">
+            <summary>
+            CategoryType defines the type that a category is.
+            </summary>
+        </member>
+        <member name="F:Budget.Category.CategoryType.Income">
+            <summary>
+            Is a positive amount of money.
+            </summary>
+        </member>
+        <member name="F:Budget.Category.CategoryType.Expense">
+            <summary>
+            A purchase representing a negative amount of money.
+            </summary>
+        </member>
+        <member name="F:Budget.Category.CategoryType.Credit">
+            <summary>
+            A purchase made on a credit card, can be negative or positive amount of money.
+            </summary>
+        </member>
+        <member name="F:Budget.Category.CategoryType.Savings">
+            <summary>
+            Saved amount of money, positive amount of money.
+            </summary>
+        </member>
+        <member name="M:Budget.Category.#ctor(System.Int32,System.String,Budget.Category.CategoryType)">
+            <summary>
+            Initializes an instance of Category class.
+            </summary>
+            <param name="id">Unique Id of the category.</param>
+            <param name="description">Description of the category.</param>
+            <param name="type">Type of the category.</param>
+            <example>
+            <code>
+            Category category = new Category(1, "Food", Category.CategoryType.Expense);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Category.#ctor(Budget.Category)">
+            <summary>
+            Initializes an instance of Category class.
+            </summary>
+            <param name="category">Category to be copied.</param>
+            <remarks>Constructor used to copy a category.</remarks>
+            <example>
+            <code>
+            Category category = new Category(1, "Food", Category.CategoryType.Expense);
+            Category categoryCopy = new Category(category);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Category.ToString">
+            <summary>
+            Overrides the ToString() method to return the description of the category.
+            </summary>
+            <returns>A string representing the description of the category.</returns>
+        </member>
+        <member name="P:Budget.Database.dbConnection">
+            <summary>
+            Gets the database connection.
+            </summary>
+            <value>The connection to the database currently in use.</value>
+        </member>
+        <member name="M:Budget.Database.newDatabase(System.String)">
+            <summary>
+            Opens a connection to the passed database file and creates all HomeBudget tables.
+            </summary>
+            <remarks>If there are already HomeBudget tables in the database, they will be cleared.</remarks>
+            <param name="filename">Name of the database file.</param>
+            <example>
+            <code>
+            newDatabase("C:\\Users\\newDB.db");
+            CloseDatabaseAndReleaseFile();
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Database.existingDatabase(System.String)">
+            <summary>
+            Opens a connection to the passed database file.
+            </summary>
+            <param name="filename">Name of the database file.</param>
+            <example>
+            <code>
+            existingDatabase("C:\\Users\\oldDb.db");
+            CloseDatabaseAndReleaseFile();
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Database.CloseDatabaseAndReleaseFile">
+            <summary>
+            Closes the database connection.
+            </summary>
+            <example>
+            <code>
+            existingDatabase("C:\\Users\\usedDb.db");
+            CloseDatabaseAndReleaseFile();
+            </code>
+            </example>
+        </member>
+        <member name="T:Budget.Expense">
+            <summary>
+            Expense class is used to create unique expenses to differenciate one from another. 
+            </summary>
+        </member>
+        <member name="P:Budget.Expense.Id">
+            <summary>
+            Gets the Id of the Expense.
+            </summary>
+            <value>Unique Id for every Expense.</value>
+        </member>
+        <member name="P:Budget.Expense.Date">
+            <summary>
+            Gets the Date of the Expense.
+            </summary>
+            <value>Represents the day of creation of the item.</value>
+        </member>
+        <member name="P:Budget.Expense.Amount">
+            <summary>
+            Gets and sets the amount of the Expense
+            </summary>
+            <value>Cost of the Expense</value>
+        </member>
+        <member name="P:Budget.Expense.Description">
+            <summary>
+            Gets and sets the description of the Expense
+            </summary>
+            <value>Short description of the Expense</value>
+        </member>
+        <member name="P:Budget.Expense.Category">
+            <summary>
+            Gets and sets the Category of the Expense
+            </summary>
+            <value>The number of the <see cref="T:Budget.Category.CategoryType"/></value>
+        </member>
+        <member name="M:Budget.Expense.#ctor(System.Int32,System.DateTime,System.Int32,System.Double,System.String)">
+            <summary>
+            Initializes an instance of Expense class.
+            </summary>
+            <param name="id">Unique id of the expense.</param>
+            <param name="date">Date of the expense.</param>
+            <param name="category">Number of the category of the expense.</param>
+            <param name="amount">Cost of the expense.</param>
+            <param name="description">Description of the expense.</param>
+            <example>
+            <code>
+            Expense expense = new Expense(1, DateTime.Now, (int)Category.CategoryType.Expense, 20, "Eating Out");
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Expense.#ctor(Budget.Expense)">
+            <summary>
+            Initializes an instance of Expense class.
+            </summary>
+            <param name="obj">Expense to be copied.</param>
+            <remarks>Constructor used to copy an expense.</remarks>
+            <example>
+            <code>
+            Expense expense = new Expense(1, DateTime.Now, (int)Category.CategoryType.Expense, 20, "Eating Out");
+            Expense expenseCopy = new Expense(expense);
+            </code>
+            </example>
+        </member>
+        <member name="T:Budget.Expenses">
+            <summary>
+            Expenses class is used to read and write from a <see cref="T:Budget.Expense"/> table in a database.
+            </summary>
+        </member>
+        <member name="M:Budget.Expenses.#ctor(System.Data.SQLite.SQLiteConnection)">
+            <summary>
+            Initializes an instance of Expenses class. 
+            </summary>
+            <param name="connection">Connection to a database.</param>
+            <example>
+            <code>
+            Expenses expenses = new Expenses(Database.dbConnection);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Expenses.GetExpensesFromId(System.Int32)">
+            <summary>
+            Looks for the <see cref="T:Budget.Expense"/>  with the id <paramref name="i"/> in the expenses table.
+            </summary>
+            <param name="i">Id of the object to look for.</param>
+            <returns>The object with an Id corresponding to the passed Id.</returns>
+            <exception cref="T:System.Exception">
+            Thrown when an expense with the passed Id isn't found.
+            </exception>
+            <example>
+            <code>
+            Expenses expenses = new Expenses(Database.dbConnection);
+            Expense search = expenses.GetCategoryFromId(2);
+            Console.WriteLine(search);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Expenses.Add(System.DateTime,System.Int32,System.Double,System.String)">
+            <summary>
+            Adds an expense to the expenses table.
+            </summary>
+            <remarks>Id of added expenses are auto incremented.</remarks>
+            <param name="date">Represents the day of creation of the new expense.</param>
+            <param name="category">The Id of the <see cref="T:Budget.Category"/>.</param>
+            <param name="amount">Cost of the expense.</param>
+            <param name="description">Description of the new expense.</param>
+            <example>
+            <code>
+            Expenses expenses = new Expenses(Database.dbConnection);
+            expenses.Add(DateTime.Now, 1, 20, "Eating Out");
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Expenses.Delete(System.Int32)">
+            <summary>
+            Removes the expense with the passed id from the expenses table.
+            </summary>
+            <remarks>
+            If a category with the passed Id isn't found, an error will logged to the console.
+            </remarks>
+            <param name="Id">Id of the object to delete.</param>
+            <example>
+            <code>
+            Expenses expenses = new Expenses(Database.dbConnection);
+            expenses.Add(DateTime.Now, 1, 20, "Eating Out");
+            expenses.Delete(1);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Expenses.UpdateProperties(System.Int32,System.DateTime,System.String,System.Double,System.Int32)">
+            <summary>
+            Updates the expense from the expenses table with the passed id with the passed values.
+            </summary>
+            <remarks>
+            If a category with the passed Id isn't found, an error will logged to the console.
+            </remarks>
+            <param name="id">Id of the expense to be updated.</param>
+            <param name="newDate">New date of the expense.</param>
+            <param name="newDescr">New Desciption of the expense.</param>
+            <param name="amount">New amount of the expense.</param>
+            <param name="newCategoryId">New Id of the category corresponding to the expense.</param>
+            <example>
+            <code>
+            Expenses expenses = new Expenses(Database.dbConnection);
+            expenses.Add(DateTime.Now, 1, 20, "Eating Out");
+            expenses.UpdateProperties(1,DateTime.Now, 2, 10, "Buying a Shirt");
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.Expenses.List">
+            <summary>
+            Returns a list of all expenses from the expenses table.
+            </summary>
+            <returns>List of Expenses</returns>
+            <example>
+            <code>
+            Expenses expenses = new Expenses(Database.dbConnection);
+            foreach(Expense expense in expenses.List())
+                Console.WriteLine(expense);
+            </code>
+            </example>
+        </member>
+        <member name="T:Budget.HomeBudget">
+            <summary>
+            HomeBudget class is used to combine <see cref="T:Budget.Categories"/> class and <see cref="T:Budget.Expenses"/> class in a database.
+            </summary>
+            <example>
+            <code>
+            HomeBudget homebudget=new HomeBudget("C:\\Users\\exampleDb.db",true);
+            </code>
+            </example>
+        </member>
+        <member name="P:Budget.HomeBudget.categories">
+            <summary>
+            Gets the Categories of the HomeBudget.
+            </summary>
+            <value>Categories in the current HomeBudget</value>
+        </member>
+        <member name="P:Budget.HomeBudget.expenses">
+            <summary>
+            Gets the Expenses of the HomeBudget.
+            </summary>
+            <value>Expenses in the current HomeBudget</value>
+        </member>
+        <member name="M:Budget.HomeBudget.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of HomeBudget class.
+            </summary>
+            <param name="databaseFile">Name of the database file.</param>
+            <param name="newDB">Boolean that determines if the database is new.</param>
+            <remarks>
+            If newDb is true and the database file already exists, tables from the database will be replaced with new ones.
+            </remarks>
+            <example>
+            <code>
+            HomeBudget homebudget=new HomeBudget("C:\\Users\\exampleDb.db",true);
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.HomeBudget.GetBudgetItems(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Boolean,System.Int32)">
+            <summary>
+            Gets a list of BudgetItems within a time frame.
+            </summary>
+            <param name="Start">Start of the time frame.</param>
+            <param name="End">End of the time frame</param>
+            <param name="FilterFlag">If true, limits the ones that have the same CategoryId as the passed <paramref name="CategoryID"/>, otherwise all the results are returned.</param>
+            <param name="CategoryID">Id of the wanted category.</param>
+            <returns>List of BudgetItems within the time frame.</returns>
+            <example>
+            <code>
+            HomeBudget homebudget=new Homebudget("C:\\Users\\exampleDb.db",true);
+            homeBudget.categories.Add("Food", Category.CategoryType.Expense);
+            List&lt;BudgetItem&gt; list = homeBudget.GetBudgetItems(null, null, false, 0);
+            foreach(BudgetItem budgetItem in list)
+            {
+                Console.WriteLine(String.Format("{0} {1} {2:C} {3:C}",budgetItem.Date.ToString("yyyy-MMM-dd"),budgetItem.ShortDescription,budgetItem.Amount, budgetItem.Balance));  
+            }        /// </code>
+            </example>
+        </member>
+        <member name="M:Budget.HomeBudget.GetBudgetItemsByMonth(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Boolean,System.Int32)">
+            <summary>
+            Groups each BudgetItem by month into seperate lists and returns a list of the groups within a time frame.
+            </summary>
+            <param name="Start">Start of the time frame.</param>
+            <param name="End">End of the time frame</param>
+            <param name="FilterFlag">If true, limits the ones that have the same CategoryId as <paramref name="CategoryID"/>, otherwise all the results are returned.</param>
+            <param name="CategoryID">Id of the wanted category.</param>
+            <returns><see cref="T:Budget.BudgetItemsByMonth"/> list within the time frame</returns>
+            <example>
+            <code>
+            HomeBudget homebudget=new Homebudget("C:\\Users\\exampleDb.db",true);
+            homeBudget.categories.Add("Salary", Category.CategoryType.Income);
+            List&lt;BudgetItemsByMonth&gt; list = homeBudget.GeBudgetItemsByMonth(null, null, false, 0);
+            foreach(BudgetItemsByMonth budgetItems in list)
+            {
+                foreach(BudgetItem budgetItem in budgetItems.Details)
+                {
+                    Console.WriteLine(String.Format("{0} {1} {2:C} {3:C}",budgetItem.Date.ToString("yyyy/MMM/dd"),budgetItem.ShortDescription,budgetItem.Amount, budgetItem.Balance));  
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.HomeBudget.GeBudgetItemsByCategory(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Boolean,System.Int32)">
+            <summary>
+            Groups each BudgetItem by CategoryId into seperate lists and returns a list of the groups within a time frame
+            </summary>
+            <param name="Start">Start of the time frame.</param>
+            <param name="End">End of the time frame</param>
+            <param name="FilterFlag">If true, limits the ones that have the same CategoryId as <paramref name="CategoryID"/>, otherwise all the results are returned.</param>
+            <param name="CategoryID">Id of the wanted category.</param>
+            <returns><see cref="T:Budget.BudgetItemsByCategory"/> list within the time frame</returns>
+            <example>
+            <code>
+            HomeBudget homeBudget = new HomeBudget("C:\\Users\\exampleDb.db",true);
+            homeBudget.categories.Add("Salary", Category.CategoryType.Income);
+            List&lt;BudgetItemsByCategory&gt; list = homeBudget.GeBudgetItemsByCategory(null, null, false, 0);
+            foreach(BudgetItemsByCategory budgetItems in list)
+            {
+                foreach(BudgetItem budgetItem in budgetItems.Details)
+                {
+                    Console.WriteLine(String.Format("{0} {1} {2:C} {3:C}",budgetItem.Date.ToString("yyyy/MMM/dd"),budgetItem.ShortDescription,budgetItem.Amount, budgetItem.Balance));  
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Budget.HomeBudget.GetBudgetDictionaryByCategoryAndMonth(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Boolean,System.Int32)">
+            <summary>
+            Groups each BudgetItem by CategoryId and month into seperate lists and returns a list of the groups within a time frame.
+            </summary>
+            <param name="Start">Start of the time frame.</param>
+            <param name="End">End of the time frame</param>
+            <param name="FilterFlag">If true, limits the ones that have the same CategoryId as <paramref name="CategoryID"/>, otherwise all the results are returned.</param>
+            <param name="CategoryID">Id of the wanted category.</param>
+            <returns>Dictionary&lt;string,object&gt; list within the time frame</returns>
+            <example>
+            <code>
+            HomeBudget homeBudget = new HomeBudget("C:\\Users\\exampleDb.db",true);
+            homeBudget.categories.Add("Salary", Category.CategoryType.Income);
+            List&lt;Dictionary&lt;string,object&gt;&gt; list=homeBudget.GetBudgetDictionaryByCategoryAndMonth(null, null, false, 0);
+            </code>
+            </example>
+        </member>
+    </members>
+</doc>

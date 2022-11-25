@@ -1,0 +1,30 @@
+﻿<Window x:Class="HomeBudgetWPF.ProjectDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HomeBudgetWPF"
+        mc:Ignorable="d"
+        Title="ProjectDetailsWindow" Height="450" Width="400" MinHeight="450" MinWidth="400" FontFamily="Cambria" FontWeight="Light">
+    <Grid Background="Thistle">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" TextWrapping="Wrap">Choose the folder where you want to save your budgets:</TextBlock>
+        <Button Click="Open_Folder" Grid.Row="0" Grid.Column="1" Margin="40" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="3" Background="LightBlue" >
+            <StackPanel Orientation="Horizontal">
+                <Image x:Name="folderImage" Source="/images/Folder_16x.png" Width="20"/>
+                <TextBlock x:Name="buttonText" Text="Choose a folder" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" TextWrapping="Wrap">Enter the name of your budget:</TextBlock>
+        <TextBox x:Name="inputName" Grid.Row="1" Grid.Column="1" Margin="40" Background="LightGray" BorderBrush="Black" BorderThickness="3"></TextBox>
+        <Button Click="SubmitDetails_Click" Grid.Row="2" Grid.Column="0" Margin="50" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="3" Background="LightBlue">Submit</Button>
+    </Grid>
+</Window>
